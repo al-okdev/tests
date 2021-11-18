@@ -1,25 +1,12 @@
-import pytest
 import os
-import requests
+import unittest
+from yandex_api import add_dir_disk
+
 
 API_YANDEX_BASE_URL = "https://cloud-api.yandex.net/"
 yandex_token = os.getenv('TOKEN_YA', '')
-name_dir = 'MyDir'
+name_dir = 'MyDir8'
 
-
-class TestApiYandexDiskPytest():
+class ApiYandexDiskTest(unittest.TestCase):
     def test_add_dir_disk(self):
-        headers = {
-            'accept': 'application/json',
-            'authorization': f'OAuth {yandex_token}'
-        }
-
-        r = requests.put(API_YANDEX_BASE_URL + "v1/disk/resources",
-                         params={'path': name_dir},
-                         headers=headers)
-
-        if r.status_code == 201:
-            print("\nПапка успешно добавленна на диск\n")
-            assert True
-        else:
-            assert False
+        self.assertEqual(add_dir_disk(name_dir, yandex_token, API_YANDEX_BASE_URL), 201)
