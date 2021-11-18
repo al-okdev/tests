@@ -21,9 +21,7 @@ def check_document_existance(user_doc_number):
     return doc_founded
 
 
-def get_doc_owner_name():
-    user_doc_number = input('Введите номер документа - ')
-    print()
+def get_doc_owner_name(user_doc_number):
     doc_exist = check_document_existance(user_doc_number)
     if doc_exist:
         for current_document in documents:
@@ -64,8 +62,8 @@ def append_doc_to_shelf(doc_number, shelf_number):
     directories[shelf_number].append(doc_number)
 
 
-def delete_doc():
-    user_doc_number = input('Введите номер документа - ')
+def delete_doc(user_doc_number):
+
     doc_exist = check_document_existance(user_doc_number)
     if doc_exist:
         for current_document in documents:
@@ -106,11 +104,8 @@ def show_all_docs_info():
         show_document_info(current_document)
 
 
-def add_new_doc():
-    new_doc_number = input('Введите номер документа - ')
-    new_doc_type = input('Введите тип документа - ')
-    new_doc_owner_name = input('Введите имя владельца документа- ')
-    new_doc_shelf_number = input('Введите номер полки для хранения - ')
+def add_new_doc(new_doc_number, new_doc_type, new_doc_owner_name, new_doc_shelf_number):
+
     new_doc = {
         "type": new_doc_type,
         "number": new_doc_number,
@@ -141,7 +136,8 @@ def secretary_program_start():
     while True:
         user_command = input('Введите команду - ')
         if user_command == 'p':
-            owner_name = get_doc_owner_name()
+            user_doc_number = input('Введите номер документа - ')
+            owner_name = get_doc_owner_name(user_doc_number)
             print('Владелец документа - {}'.format(owner_name))
         elif user_command == 'ap':
             uniq_users = get_all_doc_owners_names()
@@ -153,10 +149,15 @@ def secretary_program_start():
             print('Документ находится на полке номер {}'.format(directory_number))
         elif user_command == 'a':
             print('Добавление нового документа:')
-            new_doc_shelf_number = add_new_doc()
+            new_doc_number = input('Введите номер документа - ')
+            new_doc_type = input('Введите тип документа - ')
+            new_doc_owner_name = input('Введите имя владельца документа- ')
+            new_doc_shelf_number = input('Введите номер полки для хранения - ')
+            new_doc_shelf_number = add_new_doc(new_doc_number, new_doc_type, new_doc_owner_name, new_doc_shelf_number)
             print('\nНа полку "{}" добавлен новый документ:'.format(new_doc_shelf_number))
         elif user_command == 'd':
-            doc_number, deleted = delete_doc()
+            user_doc_number = input('Введите номер документа - ')
+            doc_number, deleted = delete_doc(user_doc_number)
             if deleted:
                 print('Документ с номером "{}" был успешно удален'.format(doc_number))
         elif user_command == 'm':
